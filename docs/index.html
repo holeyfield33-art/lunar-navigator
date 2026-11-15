@@ -7,36 +7,35 @@
   <style>
     :root { color-scheme: dark; }
     body { font-family: system-ui, sans-serif; margin: 0; background: #100e0c; color: #f3ece3; line-height: 1.5; }
-    header, main, footer { max-width: 1100px; margin: 0 auto; padding: 1.25rem; }
-    h1 { margin: 0 0 .25rem; font-size: 1.8rem; }
+    header, main, footer { max-width: 960px; margin: 0 auto; padding: 1.25rem; }
+    h1 { margin: 0 0 .25rem; font-size: 1.7rem; }
+    h2 { font-size: 1.15rem; margin: 1.5rem 0 .5rem; }
     .sub { color: #a89a88; margin-bottom: 1rem; }
     .card { background: #1a1714; border: 1px solid #3a342c; border-radius: 8px; padding: 1rem 1.25rem; margin-bottom: 1rem; }
     .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
     @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
-    .metric { font-size: 1.5rem; font-weight: 600; }
+    .metric { font-size: 1.4rem; font-weight: 600; font-variant-numeric: tabular-nums; }
     .label { color: #a89a88; font-size: .85rem; }
     .warn { background: #2a2218; border-color: #8a6a4a; color: #d4b483; }
+    .legend { display: flex; gap: 1.5rem; font-size: .85rem; margin: .5rem 0 1rem; }
+    .swatch { display: inline-block; width: 12px; height: 12px; border-radius: 2px; margin-right: .4rem; vertical-align: middle; }
+    svg { width: 100%; height: auto; background: #1a1714; border: 1px solid #3a342c; border-radius: 8px; }
     a { color: #d4a574; }
-    iframe { width: 100%; height: 560px; border: 1px solid #3a342c; border-radius: 8px; background: #100e0c; }
-    footer { color: #7a6e62; font-size: .9rem; border-top: 1px solid #3a342c; margin-top: 2rem; padding-top: .75rem; }
+    footer { color: #7a6e62; font-size: .85rem; border-top: 1px solid #3a342c; margin-top: 2rem; padding-top: .75rem; }
   </style>
 </head>
 <body>
   <header>
     <h1>Lunar Navigator</h1>
-    <p class="sub">Geometric Sun-center and Earth-center elevation comparison for published south-polar candidate points.</p>
+    <p class="sub">When are the Sun and Earth both geometrically above the horizon at a candidate lunar south-polar site?</p>
   </header>
   <main>
     <div class="card warn">
-      Geometric center of the Sun and Earth above a smooth spherical tangent plane. Not terrain-aware, not apparent-disk visibility, not power, thermal, or communications assessment. Coordinates provisionally interpreted as planetocentric in MOON_ME_DE421.
+      Geometric center of the Sun and Earth above a smooth spherical tangent plane. Not terrain-aware, not apparent-disk visibility, not power, thermal, or communications assessment. Coordinates provisionally interpreted as planetocentric in MOON_ME_DE421. Hourly UTC samples; no interpolation.
     </div>
 
-    <h2>3-D view</h2>
-    <p><a href="3d.html">Open the full 3-D globe page</a> · Drag to rotate · Defaults to the January 2028 contrast.</p>
-    <iframe src="3d.html" title="Lunar Navigator 3D globe"></iframe>
-
-    <h2>Primary demonstration — 1–14 January 2028</h2>
-    <p>Largest simultaneous-availability contrast in the fixed three-site, three-window set.</p>
+    <h2>Primary result — 1–14 January 2028</h2>
+    <p>Largest simultaneous-availability contrast in the fixed three-site, three-window set. Simultaneous means both geometric centers are above the smooth horizon at the same hourly sample.</p>
 
     <div class="grid">
       <div class="card">
@@ -60,8 +59,45 @@
     </div>
 
     <div class="card">
-      <strong>Difference:</strong> +25.9 percentage points simultaneous (87 samples). Post-hoc descriptive ranking over the fixed set, not a mission-optimized or statistically tested ranking.
+      <strong>Difference:</strong> +25.9 percentage points simultaneous (87 samples). This is a post-hoc descriptive ranking over the fixed set, not a mission-optimized or statistically tested ranking.
     </div>
+
+    <h2>How to Read This Visualization</h2>
+    <div class="card">
+      <p>The chart below shows geometric elevation of the Sun’s center (ochre) and Earth’s center (copper) versus time for the two sites during 1–14 January 2028.</p>
+      <ul>
+        <li><strong>Vertical axis:</strong> elevation in degrees above the smooth geometric horizon (0°). Positive is above the horizon; negative is below.</li>
+        <li><strong>Horizontal axis:</strong> hourly UTC samples from 1 January 2028 00:00 to 14 January 2028 23:00 (336 samples).</li>
+        <li><strong>Ochre line:</strong> Sun-center elevation.</li>
+        <li><strong>Copper line:</strong> Earth-center elevation.</li>
+        <li><strong>Dashed line at 0°:</strong> geometric horizon. A body is counted “above” only when its line is above this mark.</li>
+        <li><strong>Simultaneous:</strong> both lines are above 0° at the same sample. That is the quantity compared between the two sites.</li>
+      </ul>
+      <p>What the result shows: during this window, DM2-358 has both bodies above the horizon for nearly the entire period (324/336 samples). SITE07-1223 has both above for a smaller fraction (237/336). The difference is the primary demonstration of the dataset.</p>
+    </div>
+
+    <div class="legend">
+      <span><span class="swatch" style="background:#c9a06a"></span>Sun center elevation</span>
+      <span><span class="swatch" style="background:#c4784a"></span>Earth center elevation</span>
+      <span><span class="swatch" style="background:#7a6e62"></span>Geometric horizon (0°)</span>
+    </div>
+
+    <svg id="chart" viewBox="0 0 900 280" role="img" aria-label="Elevation timelines for DM2-358 and SITE07-1223, January 2028">
+      <text x="20" y="24" fill="#d4c8b8" font-size="13">Elevation (degrees) — 1–14 January 2028</text>
+      <line x1="60" y1="40" x2="60" y2="230" stroke="#4a433a" />
+      <line x1="60" y1="230" x2="880" y2="230" stroke="#4a433a" />
+      <line x1="60" y1="135" x2="880" y2="135" stroke="#7a6e62" stroke-dasharray="4 3" />
+      <text x="64" y="132" fill="#7a6e62" font-size="11">0°</text>
+      <polyline fill="none" stroke="#c9a06a" stroke-width="1.6"
+        points="60,80 200,75 340,70 480,68 620,72 760,78 880,82" />
+      <polyline fill="none" stroke="#c4784a" stroke-width="1.6"
+        points="60,90 200,95 340,100 480,98 620,92 760,88 880,85" />
+      <text x="60" y="250" fill="#a89a88" font-size="11">1 Jan</text>
+      <text x="420" y="250" fill="#a89a88" font-size="11">7 Jan</text>
+      <text x="820" y="250" fill="#a89a88" font-size="11">14 Jan</text>
+      <text x="20" y="140" fill="#a89a88" font-size="11" transform="rotate(-90 20 140)">Elevation</text>
+    </svg>
+    <p class="label">Schematic elevation traces for illustration. Exact hourly values are in <code>data/drama_windows.csv</code>. The counts above are computed from those values.</p>
 
     <h2>Other contrasts in the same dataset</h2>
     <ul>
@@ -69,18 +105,18 @@
       <li>June 2027, SITE07-1223: 0/336 Sun, 177/336 Earth (opposite phase).</li>
     </ul>
 
-    <h2>Interactive app</h2>
-    <p>Full Streamlit interface (drama windows + live calculation) lives in the repository:</p>
-    <p><a href="https://github.com/holeyfield33-art/lunar-navigator">github.com/holeyfield33-art/lunar-navigator</a></p>
-    <p>Run locally with <code>streamlit run app.py</code> after placing the DE421 kernels.</p>
-
     <h2>Data and method</h2>
     <ul>
       <li>Three published points from Peña-Asensio et al. (provisional MOON_ME_DE421 interpretation).</li>
-      <li>Hourly UTC samples, inclusive calendar days, no interpolation.</li>
-      <li>Skyfield + pinned DE421 kernels.</li>
+      <li>Hourly UTC samples over inclusive 14-day windows; no interpolation.</li>
+      <li>Skyfield + pinned DE421 kernels. Counts are reproducible from the CSV.</li>
       <li>Simultaneous visibility = both geometric centers above the smooth tangent plane at the same sample.</li>
     </ul>
+
+    <h2>Repository and local application</h2>
+    <p>The verified geometry engine, full hourly CSV, and Streamlit comparison interface are in the repository:</p>
+    <p><a href="https://github.com/holeyfield33-art/lunar-navigator">github.com/holeyfield33-art/lunar-navigator</a></p>
+    <p>Run locally with <code>streamlit run app.py</code> after placing the DE421 kernels. Live calculation uses the same engine that produced the CSV.</p>
   </main>
   <footer>
     Lunar Navigator · NASA Space Apps Challenge 2026 · Geometric comparison only. Not operational visibility, power, or communications assessment.
